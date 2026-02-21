@@ -5,9 +5,19 @@
 {% block content %}
 <h2>Bienvenido a nuestra tienda online</h2>
 <p>Explora nuestros productos y ofertas:</p>
-<ul>
-    <li><a href="{{ url_for('producto', nombre='Laptop') }}">Laptop</a></li>
-    <li><a href="{{ url_for('producto', nombre='Tablet') }}">Tablet</a></li>
-    <li><a href="{{ url_for('producto', nombre='Mouse') }}">Mouse</a></li>
-</ul>
+
+<div class="productos">
+    <div class="producto">
+        <img src="{{ url_for('static', filename='img/imagen1.jpg') }}" alt="Laptop">
+        <p><a href="{{ url_for('producto', nombre='Laptop') }}">Laptop</a></p>
+    </div>
+    <div class="producto">
+        <img src="{{ url_for('static', filename='img/imagen2.jpg') }}" alt="Tablet">
+        <p><a href="{{ url_for('producto', nombre='Tablet') }}">Tablet</a></p>
+    </div>
+    <div class="producto">
+        <img src="{{ url_for('static', filename='img/imagen3.jpg') }}" alt="Mouse">
+        <p><a href="{{ url_for('producto', nombre='Mouse') }}">Mouse</a></p>
+    </div>
+</div>
 {% endblock %}
