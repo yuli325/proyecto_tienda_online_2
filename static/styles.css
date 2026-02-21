@@ -1,0 +1,49 @@
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f8ff; /* azul claro */
+    color: #333; /* color de texto */
+    margin: 0;
+    padding: 0;
+}
+
+/* Encabezado */
+header {
+    background-color: #004080; /* azul oscuro */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Menú de navegación */
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Contenido principal */
+main {
+    padding: 20px;
+}
+
+/* Títulos de productos */
+h2 {
+    color: #004080;
+}
+
+/* Pie de página */
+footer {
+    background-color: #004080;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
