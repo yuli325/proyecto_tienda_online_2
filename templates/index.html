@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Tienda Online{% endblock %}
+
+{% block content %}
+<h2>Bienvenido a nuestra tienda online</h2>
+<p>Explora nuestros productos y ofertas:</p>
+<ul>
+    <li><a href="{{ url_for('producto', nombre='Laptop') }}">Laptop</a></li>
+    <li><a href="{{ url_for('producto', nombre='Tablet') }}">Tablet</a></li>
+    <li><a href="{{ url_for('producto', nombre='Mouse') }}">Mouse</a></li>
+</ul>
+{% endblock %}

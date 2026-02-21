@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Tienda Online{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <h1>Tienda Online – Catálogo y ofertas</h1>
+    </header>
+
+    <!-- Menú de navegación -->
+    <nav>
+        <a href="{{ url_for('home') }}">Inicio</a> |
+        <a href="{{ url_for('about') }}">Acerca de</a>
+    </nav>
+
+    <!-- Contenido dinámico -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2026 Tienda Online</p>
+    </footer>
+</body>
+</html>
