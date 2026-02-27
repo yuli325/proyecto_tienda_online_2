@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Tienda Online{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
 </head>
 <body>
     <!-- Encabezado -->
@@ -14,7 +14,8 @@
     <!-- Menú de navegación -->
     <nav>
         <a href="{{ url_for('home') }}">Inicio</a> |
-        <a href="{{ url_for('about') }}">Acerca de</a>
+        <a href="{{ url_for('about') }}">Acerca de</a> |
+        <a href="{{ url_for('agregar') }}">Agregar Producto</a>
     </nav>
 
     <!-- Contenido dinámico -->
