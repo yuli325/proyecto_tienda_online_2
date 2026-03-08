@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto{% endblock %}
+
+{% block content %}
+<h2>Contacto</h2>
+<p>Si tienes dudas o comentarios, completa el siguiente formulario:</p>
+
+<form method="POST" action="mailto:juliana@hotmail.com">
+    <label>Nombre:</label><br>
+    <input type="text" name="nombre" required><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label>Mensaje:</label><br>
+    <textarea name="mensaje" rows="5" required></textarea><br><br>
+
+    <button type="submit">Enviar Mensaje</button>
+</form>
+{% endblock %}

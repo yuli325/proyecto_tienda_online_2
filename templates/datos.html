@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Datos Guardados{% endblock %}
+
+{% block content %}
+<h2>Productos guardados en archivos</h2>
+
+<!-- Productos desde TXT -->
+<h3>Archivo TXT</h3>
+{% if txt %}
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Nombre</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+    </tr>
+    {% for producto in txt %}
+    <tr>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>${{ "%.2f"|format(producto.precio) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No hay productos en el archivo TXT.</p>
+{% endif %}
+
+<!-- Productos desde JSON -->
+<h3>Archivo JSON</h3>
+{% if json_datos %}
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Nombre</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+    </tr>
+    {% for producto in json_datos %}
+    <tr>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>${{ "%.2f"|format(producto.precio) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No hay productos en el archivo JSON.</p>
+{% endif %}
+
+<!-- Productos desde CSV -->
+<h3>Archivo CSV</h3>
+{% if csv_datos %}
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Nombre</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+    </tr>
+    {% for producto in csv_datos %}
+    <tr>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>${{ "%.2f"|format(producto.precio) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No hay productos en el archivo CSV.</p>
+{% endif %}
+
+{% endblock %}
