@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 
-# Funciones de SQLite que ya usabas
+# Funciones de SQLite
 from database import (
     crear_tabla,
     obtener_productos,
@@ -10,21 +10,24 @@ from database import (
     eliminar_producto
 )
 
-# Funciones para persistencia en archivos
+# Funciones de persistencia en archivos
 from archivos import guardar_txt, guardar_json, guardar_csv, leer_txt, leer_json, leer_csv
 
-# Conexión a MySQL
-from conexion.conexion import obtener_conexion
+# Intentar importar conexión MySQL (para que Render no falle)
+try:
+    from conexion.conexion import obtener_conexion
+except:
+    obtener_conexion = None
 
 app = Flask(__name__)
 
 # =========================
-# Crear tabla SQLite al iniciar la app
+# Crear tabla SQLite al iniciar
 # =========================
 crear_tabla()
 
 # =========================
-# Ruta principal: muestra todos los productos (SQLite)
+# Página principal
 # =========================
 @app.route("/")
 def home():
@@ -32,7 +35,7 @@ def home():
     return render_template("index.html", productos=productos)
 
 # =========================
-# Ruta dinámica para mostrar un producto
+# Mostrar producto
 # =========================
 @app.route("/producto/<nombre>")
 def producto(nombre):
@@ -104,20 +107,27 @@ def eliminar(id):
     return redirect(url_for("home"))
 
 # =========================
-# MOSTRAR PRODUCTOS MYSQL (BONITO)
+# Mostrar productos MySQL
 # =========================
 @app.route("/productos_mysql")
 def productos_mysql():
 
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
+    if not obtener_conexion:
+        return "MySQL no disponible en este servidor"
 
-    cursor.execute("SELECT * FROM productos")
-    productos = cursor.fetchall()
+    try:
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
 
-    conexion.close()
+        cursor.execute("SELECT * FROM productos")
+        productos = cursor.fetchall()
 
-    return render_template("productos_mysql.html", productos=productos)
+        conexion.close()
+
+        return render_template("productos_mysql.html", productos=productos)
+
+    except:
+        return "Error al conectar con MySQL"
 
 # =========================
 # Insertar producto en MySQL
@@ -125,22 +135,29 @@ def productos_mysql():
 @app.route("/agregar_mysql", methods=["POST"])
 def agregar_mysql():
 
-    nombre = request.form["nombre"]
-    precio = request.form["precio"]
-    descripcion = request.form["descripcion"]
+    if not obtener_conexion:
+        return "MySQL no disponible"
 
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
+    try:
+        nombre = request.form["nombre"]
+        precio = request.form["precio"]
+        descripcion = request.form["descripcion"]
 
-    sql = "INSERT INTO productos (nombre, precio, descripcion) VALUES (%s,%s,%s)"
-    valores = (nombre, precio, descripcion)
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
 
-    cursor.execute(sql, valores)
-    conexion.commit()
+        sql = "INSERT INTO productos (nombre, precio, descripcion) VALUES (%s,%s,%s)"
+        valores = (nombre, precio, descripcion)
 
-    conexion.close()
+        cursor.execute(sql, valores)
+        conexion.commit()
 
-    return redirect("/productos_mysql")
+        conexion.close()
+
+        return redirect("/productos_mysql")
+
+    except:
+        return "Error al insertar producto en MySQL"
 
 # =========================
 # Ejecutar aplicación
