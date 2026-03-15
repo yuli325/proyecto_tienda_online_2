@@ -3,27 +3,45 @@
 {% block title %}Inicio - Tienda Online{% endblock %}
 
 {% block content %}
+
 <h2>Bienvenido a nuestra tienda online</h2>
 <p>Explora nuestros productos y ofertas:</p>
 
 {% set imagenes = {
     "Laptop": "imagen1.jpg",
     "Tablet": "imagen2.jpg",
-    "Mause": "imagen3.jpg"
+    "Mouse": "imagen3.jpg"
 } %}
 
 <div class="productos">
-    {% for producto in productos %}
-    <div class="producto">
-        <img src="{{ url_for('static', filename='img/' ~ imagenes.get(producto[1], 'placeholder.jpg')) }}" alt="{{ producto[1] }}">
-        <p><a href="{{ url_for('producto', nombre=producto[1]) }}">{{ producto[1] }}</a></p>
-        <p>Stock: {{ producto[2] }}</p>
-        <p>Precio: ${{ producto[3] }}</p>
-        <p>
-            <a href="{{ url_for('editar', id=producto[0]) }}">Editar</a> |
-            <a href="{{ url_for('eliminar', id=producto[0]) }}" onclick="return confirm('¿Eliminar este producto?');">Eliminar</a>
-        </p>
-    </div>
-    {% endfor %}
+
+{% for producto in productos %}
+
+<div class="producto">
+
+<img src="{{ url_for('static', filename='img/' ~ imagenes.get(producto[1], 'placeholder.jpg')) }}" 
+alt="{{ producto[1] }}">
+
+<h3>
+<a href="{{ url_for('producto', nombre=producto[1]) }}">
+{{ producto[1] }}
+</a>
+</h3>
+
+<p><strong>Stock:</strong> {{ producto[2] }}</p>
+
+<p><strong>Precio:</strong> ${{ producto[3] }}</p>
+
+<p>
+<a href="{{ url_for('editar', id=producto[0]) }}">Editar</a> |
+<a href="{{ url_for('eliminar', id=producto[0]) }}" 
+onclick="return confirm('¿Eliminar este producto?');">Eliminar</a>
+</p>
+
 </div>
+
+{% endfor %}
+
+</div>
+
 {% endblock %}

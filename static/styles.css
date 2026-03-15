@@ -1,31 +1,75 @@
+/* Fondo de la página */
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#eef2f7;
+    margin:0;
+}
+
 /* Encabezado */
-header {
-    background-color: #f0f8ff; /* fondo azul claro */
-    color: #004080; /* texto azul oscuro */
-    padding: 20px;
-    text-align: center;
+header{
+    background:#2c3e50;
+    color:white;
+    text-align:center;
+    padding:20px;
 }
 
-/* Menú de navegación */
-nav a {
-    color: #004080; /* azul oscuro para links */
-    margin: 0 15px;
-    text-decoration: none;
-    font-weight: bold;
+header h1{
+    margin:0;
 }
 
-nav a:hover {
-    color: #001f3f; /* azul más intenso al pasar el mouse */
-    text-decoration: underline;
+/* Menú */
+nav{
+    background:#34495e;
+    text-align:center;
+    padding:12px;
 }
 
-/* Pie de página */
-footer {
-    background-color: #004080; /* azul oscuro */
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 10px;
+    font-weight:bold;
+}
+
+nav a:hover{
+    color:#f39c12;
+}
+
+/* Contenido */
+main{
+    padding:20px;
+}
+
+/* Productos */
+.productos{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+}
+
+.producto{
+    background:white;
+    border-radius:10px;
+    width:220px;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.producto img{
+    width:180px;
+    border-radius:8px;
+}
+
+.producto h3{
+    color:#2c3e50;
+}
+
+/* Footer */
+footer{
+    background:#2c3e50;
+    color:white;
+    text-align:center;
+    padding:10px;
 }

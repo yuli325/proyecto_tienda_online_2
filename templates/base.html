@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Tienda Online{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+
+    <!-- Conexión correcta del CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
 <body>
+
     <!-- Encabezado -->
     <header>
         <h1>Tienda Online – Catálogo y ofertas</h1>
@@ -16,7 +20,7 @@
         <a href="{{ url_for('home') }}">Inicio</a> |
         <a href="{{ url_for('about') }}">Acerca de</a> |
         <a href="{{ url_for('agregar') }}">Agregar Producto</a> |
-        <a href="{{ url_for('datos') }}">Ver Datos</a> |
+        <a href="{{ url_for('productos_mysql') }}">Productos MySQL</a> |
         <a href="{{ url_for('contactos') }}">Contacto</a>
     </nav>
 
@@ -29,5 +33,6 @@
     <footer>
         <p>&copy; 2026 Tienda Online</p>
     </footer>
+
 </body>
 </html>

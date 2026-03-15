@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
+
+# Funciones de SQLite que ya usabas
 from database import (
     crear_tabla,
     obtener_productos,
@@ -11,6 +13,9 @@ from database import (
 # Funciones para persistencia en archivos
 from archivos import guardar_txt, guardar_json, guardar_csv, leer_txt, leer_json, leer_csv
 
+# Conexión a MySQL
+from conexion.conexion import obtener_conexion
+
 app = Flask(__name__)
 
 # =========================
@@ -19,7 +24,7 @@ app = Flask(__name__)
 crear_tabla()
 
 # =========================
-# Ruta principal: muestra todos los productos
+# Ruta principal: muestra todos los productos (SQLite)
 # =========================
 @app.route("/")
 def home():
@@ -45,88 +50,100 @@ def about():
     return render_template("about.html")
 
 # =========================
-# Página Contactos
+# Página Contacto
 # =========================
 @app.route("/contactos")
 def contactos():
     return render_template("contactos.html")
 
 # =========================
-# Ruta para ver productos en archivos (TXT, JSON, CSV)
-# =========================
-@app.route("/datos")
-def datos():
-    txt = leer_txt()
-    json_datos = leer_json()
-    csv_datos = leer_csv()
-    return render_template("datos.html", txt=txt, json_datos=json_datos, csv_datos=csv_datos)
-
-# =========================
-# Ruta para agregar productos
+# Agregar producto (SQLite)
 # =========================
 @app.route("/agregar", methods=["GET", "POST"])
 def agregar():
+
     if request.method == "POST":
         nombre = request.form["nombre"]
-        cantidad = int(request.form["cantidad"])
-        precio = float(request.form["precio"])
+        precio = request.form["precio"]
+        descripcion = request.form["descripcion"]
 
-        # Guardar en SQLite
-        insertar_producto(nombre, cantidad, precio)
-
-        # Guardar también en archivos
-        guardar_txt(nombre, cantidad, precio)
-        guardar_json(nombre, cantidad, precio)
-        guardar_csv(nombre, cantidad, precio)
+        insertar_producto(nombre, precio, descripcion)
 
         return redirect(url_for("home"))
 
-    return render_template(
-        "producto_form.html",
-        titulo="Agregar Producto",
-        boton="Agregar",
-        producto=None
-    )
+    return render_template("agregar.html")
 
 # =========================
-# Ruta para editar productos
+# Editar producto
 # =========================
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar(id):
-    productos = obtener_productos()
-    producto = next((p for p in productos if p[0] == id), None)
-
-    if not producto:
-        return "Producto no encontrado"
 
     if request.method == "POST":
-        cantidad = int(request.form["cantidad"])
-        precio = float(request.form["precio"])
-        actualizar_producto(id, cantidad, precio)
+        nombre = request.form["nombre"]
+        precio = request.form["precio"]
+        descripcion = request.form["descripcion"]
+
+        actualizar_producto(id, nombre, precio, descripcion)
+
         return redirect(url_for("home"))
 
-    return render_template(
-        "producto_form.html",
-        titulo=f"Editar Producto: {producto[1]}",
-        boton="Guardar Cambios",
-        producto={
-            "nombre": producto[1],
-            "cantidad": producto[2],
-            "precio": producto[3]
-        }
-    )
+    productos = obtener_productos()
+    producto = [p for p in productos if p[0] == id][0]
+
+    return render_template("editar.html", producto=producto)
 
 # =========================
-# Ruta para eliminar productos
+# Eliminar producto
 # =========================
 @app.route("/eliminar/<int:id>")
 def eliminar(id):
+
     eliminar_producto(id)
+
     return redirect(url_for("home"))
 
 # =========================
-# Ejecutar la app
+# MOSTRAR PRODUCTOS MYSQL (BONITO)
+# =========================
+@app.route("/productos_mysql")
+def productos_mysql():
+
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+
+    cursor.execute("SELECT * FROM productos")
+    productos = cursor.fetchall()
+
+    conexion.close()
+
+    return render_template("productos_mysql.html", productos=productos)
+
+# =========================
+# Insertar producto en MySQL
+# =========================
+@app.route("/agregar_mysql", methods=["POST"])
+def agregar_mysql():
+
+    nombre = request.form["nombre"]
+    precio = request.form["precio"]
+    descripcion = request.form["descripcion"]
+
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+
+    sql = "INSERT INTO productos (nombre, precio, descripcion) VALUES (%s,%s,%s)"
+    valores = (nombre, precio, descripcion)
+
+    cursor.execute(sql, valores)
+    conexion.commit()
+
+    conexion.close()
+
+    return redirect("/productos_mysql")
+
+# =========================
+# Ejecutar aplicación
 # =========================
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(debug=True)
