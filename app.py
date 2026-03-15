@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 
+# =========================
 # Funciones de SQLite
+# =========================
 from database import (
     crear_tabla,
     obtener_productos,
@@ -10,10 +12,14 @@ from database import (
     eliminar_producto
 )
 
+# =========================
 # Funciones de persistencia en archivos
+# =========================
 from archivos import guardar_txt, guardar_json, guardar_csv, leer_txt, leer_json, leer_csv
 
-# Intentar importar conexión MySQL (para que Render no falle)
+# =========================
+# Intentar importar conexión MySQL
+# =========================
 try:
     from conexion.conexion import obtener_conexion
 except:
@@ -160,7 +166,8 @@ def agregar_mysql():
         return "Error al insertar producto en MySQL"
 
 # =========================
-# Ejecutar aplicación
+# Ejecutar aplicación (IMPORTANTE PARA RENDER)
 # =========================
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
