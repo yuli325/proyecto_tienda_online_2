@@ -1,4 +1,4 @@
 Laptop,1,1500.0
 Tablet,1,500.0
-Mause,1,15.0
+Mouse,1,15.0
 Laptop,2,1500.0
