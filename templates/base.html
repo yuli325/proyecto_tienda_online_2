@@ -4,32 +4,38 @@
     <meta charset="UTF-8">
     <title>{% block title %}Tienda Online{% endblock %}</title>
 
-    <!-- Conexión correcta del CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
 
-    <!-- Encabezado -->
     <header>
         <h1>Tienda Online – Catálogo y ofertas</h1>
     </header>
 
-    <!-- Menú de navegación -->
     <nav>
         <a href="{{ url_for('home') }}">Inicio</a> |
         <a href="{{ url_for('about') }}">Acerca de</a> |
         <a href="{{ url_for('agregar') }}">Agregar Producto</a> |
         <a href="{{ url_for('productos_mysql') }}">Productos MySQL</a> |
         <a href="{{ url_for('contactos') }}">Contacto</a>
+
+        {% if current_user.is_authenticated %}
+            | 👤 {{ current_user.nombre }}
+            | <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        {% else %}
+            | <a href="{{ url_for('login') }}">Login</a>
+            | <a href="{{ url_for('registro') }}">Registro</a>
+        {% endif %}
     </nav>
 
-    <!-- Contenido dinámico -->
+    <hr>
+
     <main>
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
 
-    <!-- Pie de página -->
     <footer>
         <p>&copy; 2026 Tienda Online</p>
     </footer>
