@@ -58,10 +58,14 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 # =========================
-# USER LOADER
+# USER LOADER (🔥 CORREGIDO)
 # =========================
 @login_manager.user_loader
 def load_user(user_id):
+    # 🔥 PROTECCIÓN PARA RENDER
+    if not obtener_conexion:
+        return None
+
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -73,6 +77,7 @@ def load_user(user_id):
 
         if user:
             return Usuario(user[0], user[1], user[2], user[3])
+
     except:
         return None
 
@@ -227,9 +232,7 @@ def listar_productos():
     productos = obtener_productos_mysql_service()
     return render_template("productos/listar.html", productos=productos)
 
-# =========================
-# PRODUCTOS MYSQL
-# =========================
+# 🔥 REDIRECT PARA MENÚ
 @app.route("/productos_mysql")
 @login_required
 def productos_mysql_redirect():
