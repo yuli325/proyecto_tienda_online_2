@@ -14,18 +14,20 @@
     </header>
 
     <nav>
-        <a href="{{ url_for('home') }}">Inicio</a> |
-        <a href="{{ url_for('about') }}">Acerca de</a> |
-        <a href="{{ url_for('agregar') }}">Agregar Producto</a> |
-        <a href="{{ url_for('productos_mysql') }}">Productos MySQL</a> |
-        <a href="{{ url_for('contactos') }}">Contacto</a>
+        <a href="/">Inicio</a> |
+        <a href="/about">Acerca de</a> |
+        <a href="/agregar">Agregar Producto</a> |
+        <a href="/productos">CRUD Productos</a> |
+        <a href="/productos_mysql">Productos MySQL</a> |
+        <a href="/contactos">Contacto</a> |
+        <a href="/reporte_pdf">Reporte PDF</a>
 
         {% if current_user.is_authenticated %}
             | 👤 {{ current_user.nombre }}
-            | <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+            | <a href="/logout">Cerrar sesión</a>
         {% else %}
-            | <a href="{{ url_for('login') }}">Login</a>
-            | <a href="{{ url_for('registro') }}">Registro</a>
+            | <a href="/login">Login</a>
+            | <a href="/registro">Registro</a>
         {% endif %}
     </nav>
 

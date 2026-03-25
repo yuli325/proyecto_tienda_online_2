@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Formulario Producto</h2>
+
+<form method="POST">
+
+Nombre: <input type="text" name="nombre" value="{{ producto[1] if producto else '' }}"><br>
+Precio: <input type="number" name="precio" value="{{ producto[2] if producto else '' }}"><br>
+Stock: <input type="number" name="stock" value="{{ producto[3] if producto else '' }}"><br>
+
+<button type="submit">Guardar</button>
+
+</form>
+{% endblock %}

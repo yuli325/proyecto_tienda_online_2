@@ -23,9 +23,7 @@
 alt="{{ producto[1] }}">
 
 <h3>
-<a href="{{ url_for('producto', nombre=producto[1]) }}">
-{{ producto[1] }}
-</a>
+    {{ producto[1] }}
 </h3>
 
 <p><strong>Stock:</strong> {{ producto[2] }}</p>
@@ -35,7 +33,9 @@ alt="{{ producto[1] }}">
 <p>
 <a href="{{ url_for('editar', id=producto[0]) }}">Editar</a> |
 <a href="{{ url_for('eliminar', id=producto[0]) }}" 
-onclick="return confirm('¿Eliminar este producto?');">Eliminar</a>
+onclick="return confirm('¿Eliminar este producto?');">
+Eliminar
+</a>
 </p>
 
 </div>
