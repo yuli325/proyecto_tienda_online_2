@@ -58,12 +58,11 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 # =========================
-# USER LOADER (🔥 CORREGIDO)
+# USER LOADER (🔥 SEGURO PARA RENDER)
 # =========================
 @login_manager.user_loader
 def load_user(user_id):
-    # 🔥 PROTECCIÓN PARA RENDER
-    if not obtener_conexion:
+    if obtener_conexion is None:
         return None
 
     try:
@@ -78,13 +77,14 @@ def load_user(user_id):
         if user:
             return Usuario(user[0], user[1], user[2], user[3])
 
-    except:
+    except Exception as e:
+        print("Error MySQL:", e)
         return None
 
     return None
 
 # =========================
-# REGISTRO
+# REGISTRO (🔥 PROTEGIDO)
 # =========================
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
@@ -92,6 +92,9 @@ def registro():
         nombre = request.form["nombre"]
         email = request.form["email"]
         password = generate_password_hash(request.form["password"])
+
+        if obtener_conexion is None:
+            return "MySQL no disponible en Render"
 
         try:
             conexion = obtener_conexion()
@@ -113,13 +116,16 @@ def registro():
     return render_template("registro.html")
 
 # =========================
-# LOGIN
+# LOGIN (🔥 PROTEGIDO)
 # =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
+
+        if obtener_conexion is None:
+            return "MySQL no disponible en Render"
 
         try:
             conexion = obtener_conexion()
@@ -232,7 +238,6 @@ def listar_productos():
     productos = obtener_productos_mysql_service()
     return render_template("productos/listar.html", productos=productos)
 
-# 🔥 REDIRECT PARA MENÚ
 @app.route("/productos_mysql")
 @login_required
 def productos_mysql_redirect():
@@ -279,6 +284,9 @@ def eliminar_producto_mysql_route(id):
 @app.route("/reporte_pdf")
 @login_required
 def reporte_pdf():
+    if obtener_conexion is None:
+        return "MySQL no disponible en Render"
+
     productos = obtener_productos_mysql_service()
 
     buffer = io.BytesIO()
@@ -302,4 +310,4 @@ def reporte_pdf():
 # =========================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port)
